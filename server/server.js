@@ -9,11 +9,14 @@ const Food = require("./models/Food");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://food-cart-kg85sgk3f-nayan-5882.vercel.app"
+  ]
+}));
+
 app.use(express.json());
 
 app.get("/", (req, res) => {

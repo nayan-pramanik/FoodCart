@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://food-cart-kg85sgk3f-nayan-5882.vercel.app"
+    "https://food-cart-kg85sgk3f-nayan-5882.vercel.app",
+    "https://food-cart-coral.vercel.app",
+    "https://food-cart-git-main-nayan-5882.vercel.app",
+    "https://food-cart-gu5hmmm38-nayan-5882.vercel.app"
   ]
 }));
 

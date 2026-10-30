@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 
 const categories = [
@@ -12,12 +12,24 @@ const categories = [
 ];
 
 function App() {
+  
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
-  
+
+  const exploreRef = useRef(null);
+
 const [foods, setFoods] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState("");
+
+const handleSearch = (event) => {
+  if (event.key === "Enter") {
+    exploreRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+};
 
 useEffect(() => {
   async function fetchFoods() {
@@ -67,6 +79,10 @@ setFoods(result.data);
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, search, foods]);
+
+  console.log("Search query:", search);
+console.log("Total foods:", foods.length);
+console.log("Filtered foods:", visibleFoods.length);
 
   const cartCount = cart.reduce(
     (total, item) => total + item.quantity,
@@ -140,20 +156,25 @@ function changeQuantity(id, amount) {
         <label className="nav-search">
           <span>⌕</span>
           <input
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search dishes, restaurants..."
-            aria-label="Search food"
-          />
+  value={search}
+  onChange={(event) => setSearch(event.target.value)}
+  onKeyDown={handleSearch}
+  placeholder="Search dishes, restaurants..."
+  aria-label="Search food"
+/>
           {search && (
-            <button
-              className="clear-search"
-              onClick={() => setSearch("")}
-              aria-label="Clear search"
-            >
-              ×
-            </button>
-          )}
+  <button
+    type="button"
+    className="clear-search"
+    onClick={() => {
+      setSearch("");
+      setActiveCategory("All");
+    }}
+    aria-label="Clear search"
+  >
+    ×
+  </button>
+)}
         </label>
 
         <button
@@ -243,7 +264,7 @@ function changeQuantity(id, amount) {
           </div>
         </section>
 
-        <section className="menu-section" id="menu">
+        <section className="menu-section" id="menu" ref={exploreRef}>
           <div className="section-heading">
             <div>
               <div className="eyebrow">A LITTLE SOMETHING FOR EVERYONE</div>

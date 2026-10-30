@@ -26,9 +26,6 @@ const handleSearch = (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
 
-    console.log("Enter key pressed");
-    console.log("Explore section:", exploreRef.current);
-
     exploreRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
